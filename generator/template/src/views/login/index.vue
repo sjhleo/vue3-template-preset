@@ -6,7 +6,7 @@
         :label-col="{ span: 6 }"
         :wrapper-col="{ span: 18 }"
         @finish="onFinish"
-        @finishFailed="onFinishFailed"
+        @finish-failed="onFinishFailed"
     >
         <a-form-item
             label="用户名"

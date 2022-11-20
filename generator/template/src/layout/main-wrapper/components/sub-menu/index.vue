@@ -1,8 +1,8 @@
 <template>
     <a-sub-menu :key="menuInfo.name">
         <template #icon>
-            <component :is="menuInfo.meta?.icon" v-if="menuInfo.meta?.icon"
-        /></template>
+            <component :is="menuInfo.meta?.icon" v-if="menuInfo.meta?.icon" />
+        </template>
         <template #title>{{ menuInfo.title }}</template>
         <template v-for="item in menuInfo.children" :key="item.name">
             <template v-if="!item.children || item.meta?.isSingle">
@@ -14,7 +14,7 @@
                 </a-menu-item>
             </template>
             <template v-else>
-                <sub-menu :menu-info="item" :key="item.key" />
+                <sub-menu :key="item.key" :menu-info="item" />
             </template>
         </template>
     </a-sub-menu>
@@ -23,12 +23,12 @@
 import { defineComponent } from "vue";
 export default defineComponent({
     name: "SubMenu",
+    components: {},
     props: {
         menuInfo: {
             type: Object,
             default: () => ({})
         }
-    },
-    components: {}
+    }
 });
 </script>

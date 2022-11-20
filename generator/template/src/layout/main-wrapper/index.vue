@@ -2,10 +2,10 @@
     <div class="main-wrapper">
         <a-layout>
             <a-layout-sider
+                v-model:collapsed="collapsed"
                 breakpoint="lg"
                 collapsible
                 :trigger="null"
-                v-model:collapsed="collapsed"
             >
                 <div class="logo">
                     <div class="icon"></div>
