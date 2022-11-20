@@ -1,11 +1,10 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import MainWarpper from "../layout/main-wrapper/index.vue";
 
-export const appRouter = [
+export const appRouter: Array<RouteRecordRaw> = [
     {
         path: "/test",
         name: "test",
-        title: "示例页面",
         meta: {
             icon: "user-outlined",
             title: "示例页面"

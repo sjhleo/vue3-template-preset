@@ -19,16 +19,11 @@
         </template>
     </a-sub-menu>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
-export default defineComponent({
-    name: "SubMenu",
-    components: {},
-    props: {
-        menuInfo: {
-            type: Object,
-            default: () => ({})
-        }
+<script lang="ts" setup>
+defineProps({
+    menuInfo: {
+        type: Object,
+        default: () => ({})
     }
 });
 </script>

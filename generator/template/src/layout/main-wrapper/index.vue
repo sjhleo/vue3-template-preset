@@ -27,7 +27,7 @@
                                         v-if="item.meta?.icon"
                                     />
                                 </template>
-                                {{ item.title }}
+                                {{ item.meta?.title }}
                             </a-menu-item>
                         </template>
                         <template v-else>
@@ -86,67 +86,51 @@
     </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import "./index.scss";
-import { computed, defineComponent, onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { appRouter } from "../../router";
 import SubMenu from "./components/sub-menu/index.vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "@/store/modules/user";
 import { useGetCurrentUser } from "@/hooks";
-export default defineComponent({
-    name: "MainWarpper",
-    components: {
-        "sub-menu": SubMenu
-    },
-    setup() {
-        const user = useUserStore();
-        const route = useRoute();
-        const router = useRouter();
-        const username = computed(() => user.username);
-        useGetCurrentUser();
-        const breadcrumbMenus = computed(() => {
-            let path = route.matched;
-            let end = path.findIndex(p => p.meta.isSingle);
-            end = end === -1 ? path.length - 1 : end;
-            return path.slice(0, end + 1);
-        });
-        const selectedKeys = ref<string[]>([appRouter[0].name as string]);
-        const openKeys = ref<string[]>([appRouter[0].name as string]);
-        const onClickMenu = (menu: {
-            item: any;
-            key: string;
-            keyPath: Array<string>;
-        }) => {
-            router.push({ name: menu.key });
-        };
-        const onOprateMenu = (menu: {
-            item: any;
-            key: string;
-            keyPath: Array<string>;
-        }) => {
-            switch (menu.key) {
-                case "logout":
-                    user.clear();
-                    router.push({ name: "login" });
-                    break;
-            }
-        };
-        onMounted(() => {
-            let path = route.matched;
-            selectedKeys.value = path.map(v => v.name as string);
-            openKeys.value = path.map(v => v.name as string);
-        });
-        return {
-            appRouter: appRouter as any,
-            collapsed: ref<boolean>(false),
-            selectedKeys,
-            openKeys,
-            onClickMenu,
-            onOprateMenu,
-            username,
-            breadcrumbMenus
-        };
+
+const collapsed = ref<boolean>(false);
+const user = useUserStore();
+const route = useRoute();
+const router = useRouter();
+const username = computed(() => user.username);
+useGetCurrentUser();
+const breadcrumbMenus = computed(() => {
+    let path = route.matched;
+    let end = path.findIndex(p => p.meta.isSingle);
+    end = end === -1 ? path.length - 1 : end;
+    return path.slice(0, end + 1);
+});
+const selectedKeys = ref<string[]>([appRouter[0].name as string]);
+const openKeys = ref<string[]>([appRouter[0].name as string]);
+const onClickMenu = (menu: {
+    item: any;
+    key: string;
+    keyPath: Array<string>;
+}) => {
+    router.push({ name: menu.key });
+};
+const onOprateMenu = (menu: {
+    item: any;
+    key: string;
+    keyPath: Array<string>;
+}) => {
+    switch (menu.key) {
+        case "logout":
+            user.clear();
+            router.push({ name: "login" });
+            break;
     }
+};
+onMounted(() => {
+    let path = route.matched;
+    selectedKeys.value = path.map(v => v.name as string);
+    openKeys.value = path.map(v => v.name as string);
 });
 </script>

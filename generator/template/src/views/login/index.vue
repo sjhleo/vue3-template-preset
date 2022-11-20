@@ -44,9 +44,9 @@
         </a-form-item>
     </a-form>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { useUserStore } from "@/store/modules/user";
-import { computed, defineComponent, onMounted, reactive } from "vue";
+import { computed, onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 import loginService from "./service";
 import "./index.scss";
@@ -55,32 +55,25 @@ interface FormState {
     password: string;
     remember: boolean;
 }
-export default defineComponent({
-    name: "LoginPage",
-    components: {},
-    setup() {
-        const user = useUserStore();
-        const formState = reactive<FormState>({
-            username: "",
-            password: "",
-            remember: true
-        });
-        const router = useRouter();
-        const onFinish = async (values: any) => {
-            const result = await loginService.login(values);
-            router.push({ name: "home" });
-            user.setUserInfo(result);
-        };
-        const onFinishFailed = (errorInfo: any) => {
-            console.log(errorInfo);
-        };
-        const disabled = computed(() => {
-            return !(formState.username && formState.password);
-        });
-        onMounted(() => {
-            loginService.getPublicKey();
-        });
-        return { formState, onFinish, onFinishFailed, disabled };
-    }
+const user = useUserStore();
+const formState = reactive<FormState>({
+    username: "",
+    password: "",
+    remember: true
+});
+const router = useRouter();
+const onFinish = async (values: any) => {
+    const result = await loginService.login(values);
+    router.push({ name: "home" });
+    user.setUserInfo(result);
+};
+const onFinishFailed = (errorInfo: any) => {
+    console.log(errorInfo);
+};
+const disabled = computed(() => {
+    return !(formState.username && formState.password);
+});
+onMounted(() => {
+    loginService.getPublicKey();
 });
 </script>
