@@ -1,7 +1,7 @@
 module.exports = (api, opts) => {
     api.extendPackage({
         dependencies: {
-            "vue": "^3.2.13",
+            vue: "^3.2.13",
             "@vueuse/core": "^9.1.0",
             "ant-design-vue": "^3.2.10",
             axios: "^0.25.0",
@@ -9,7 +9,7 @@ module.exports = (api, opts) => {
             "js-cookie": "^3.0.1",
             jsencrypt: "^3.0.0-rc.1",
             nprogress: "^0.2.0",
-            pinia: "^2.0.17",
+            pinia: "^2.0.17"
             // "vue-class-component": "^8.0.0-0",
             // "vue-router": "^4.0.3"
         },
@@ -22,17 +22,28 @@ module.exports = (api, opts) => {
             "@vue/cli-plugin-eslint": "~5.0.0",
             "@vue/eslint-config-typescript": "^9.1.0",
             eslint: "^7.32.0",
-            "eslint-plugin-vue": "^8.0.3"
+            "eslint-plugin-vue": "^8.0.3",
+            "@commitlint/cli": "^17.3.0",
+            "@commitlint/config-conventional": "^17.3.0",
+            husky: "^8.0.2",
+            "lint-staged": "^13.0.3",
+            prettier: "^2.7.1"
         },
         scripts: {
             check: "http-server ./dist -a 127.0.0.1 -p 5050",
+            prepare: "husky install",
+            lint: 'eslint --fix --ext ".js,.vue,.ts" src'
+        },
+        "lint-staged": {
+            "*.{html,vue,css,scss}": ["prettier --write", "git add -A"],
+            "*.{ts,js,vue}": ["prettier --write", "eslint --fix", "git add -A"]
         }
     });
     // 删除 vue-cli3 默认目录
     api.render(files => {
         Object.keys(files)
             .filter(
-                path => path.startsWith("src/")  // || path.startsWith("public/")
+                path => path.startsWith("src/") // || path.startsWith("public/")
             )
             .forEach(path => delete files[path]);
     });
