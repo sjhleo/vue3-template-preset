@@ -72,7 +72,6 @@
                                 </a-menu>
                             </template>
                         </a-dropdown>
-                        <theme-config></theme-config>
                     </div>
                 </a-layout-header>
                 <a-layout-content>
